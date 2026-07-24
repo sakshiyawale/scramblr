@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ValueProvider, useValue } from './context/ValueContext'
+import { ValueProvider, useValue, USER_ID } from './context/ValueContext'
 import { GameProvider } from './context/GameContext'
 import { GameScreen } from './components/Game/GameScreen'
 import { Window1Prompt } from './components/Prompt/Window1Prompt'
@@ -9,34 +9,51 @@ import { UpgradeModal } from './components/Prompt/UpgradeModal'
 import { ExperimentStats } from './components/Dashboard/ExperimentStats'
 import { PLANS } from './lib/value-engine'
 
+const PROFILE_NAME = 'Demo Player'
+const PROFILE_INITIALS = PROFILE_NAME.split(' ')
+  .map((w) => w[0])
+  .join('')
+
+function ProfileBadge() {
+  return (
+    <div className="flex items-center gap-2" title={USER_ID}>
+      <span className="grid place-items-center w-7 h-7 rounded-full bg-nyt-ink text-white text-[11px] font-head font-bold">
+        {PROFILE_INITIALS}
+      </span>
+      <span className="hidden md:inline font-body text-sm text-nyt-ink">{PROFILE_NAME}</span>
+    </div>
+  )
+}
+
 function AppShell() {
   const { value, activeWindow, dismissActiveWindow, onGameEnd, onHintUsed, convert, upgradePlan } = useValue()
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
 
   return (
-    <div className="min-h-screen flex flex-col text-white">
-      <header className="flex items-center justify-between px-4 sm:px-8 py-4 border-b-2 border-white/10">
-        <h1 className="font-arcade text-arcade-cyan text-sm sm:text-base drop-shadow-neon">
-          🔤 SCRAM<span className="text-arcade-pink">BLR</span>
+    <div className="min-h-screen flex flex-col text-nyt-ink">
+      <header className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-nyt-line bg-nyt-panel">
+        <h1 className="font-head font-extrabold text-nyt-ink text-lg sm:text-xl tracking-tight">
+          Scram<span className="text-nyt-red">blr</span>
         </h1>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <span className="hidden sm:inline font-arcade text-[9px] text-white/40 border border-white/20 rounded px-2 py-1">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <ProfileBadge />
+          <span className="hidden sm:inline font-head text-[11px] font-semibold text-nyt-sub border border-nyt-line rounded px-2 py-1">
             {PLANS[value.plan].label}
           </span>
           <button
             type="button"
             onClick={() => setShowDashboard(true)}
-            className="font-arcade text-[9px] sm:text-[10px] px-3 py-2 rounded-lg border-2 border-arcade-cyan text-arcade-cyan hover:bg-arcade-cyan hover:text-arcade-bg transition-colors"
+            className="font-head text-xs font-semibold px-3 py-2 rounded-md border border-nyt-line text-nyt-ink hover:bg-nyt-paper transition-colors"
           >
-            📊 Stats
+            Stats
           </button>
           <button
             type="button"
             onClick={() => setShowUpgrade(true)}
-            className="font-arcade text-[9px] sm:text-[10px] px-3 py-2 rounded-lg bg-arcade-pink text-white shadow-neon hover:scale-105 active:scale-95 transition-transform"
+            className="font-head text-xs font-semibold px-3 py-2 rounded-md bg-nyt-red text-white shadow-card hover:opacity-90 transition-opacity"
           >
-            ⭐ Upgrade
+            Upgrade
           </button>
         </div>
       </header>
@@ -46,10 +63,6 @@ function AppShell() {
           <GameScreen onOpenUpgrade={() => setShowUpgrade(true)} />
         </GameProvider>
       </main>
-
-      <footer className="text-center py-3 font-display text-[11px] text-white/25">
-        Portfolio project inspired by NYT Games CASH Squad -- demo checkout, no real payments processed.
-      </footer>
 
       {activeWindow === 'window1' && (
         <Window1Prompt onConvert={() => convert('window1')} onDismiss={dismissActiveWindow} />

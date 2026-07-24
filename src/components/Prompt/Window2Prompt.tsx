@@ -15,19 +15,19 @@ export function Window2Prompt({
   const [success, setSuccess] = useState<Plan | null>(null)
 
   return (
-    <PromptModal onClose={onDismiss} accent="pink">
+    <PromptModal onClose={onDismiss} accent="red">
       <div className="flex flex-col items-center gap-4 text-center">
-        <span className="font-arcade text-[10px] text-arcade-pink">GAMES+ SUBSCRIPTION</span>
-        <h3 className="font-display font-extrabold text-xl text-white">{def.headline}</h3>
-        <p className="text-white/50 text-xs font-display">{def.rationale}</p>
+        <span className="font-head text-[11px] font-bold text-nyt-red">GAMES+ SUBSCRIPTION</span>
+        <h3 className="font-head font-extrabold text-xl text-nyt-ink">{def.headline}</h3>
+        <p className="text-nyt-sub text-xs font-body">{def.rationale}</p>
 
         {success ? (
-          <p className="font-arcade text-arcade-lime text-xs animate-popin">EXPERT MODE UNLOCKED! 🔓</p>
+          <p className="font-head text-nyt-green text-xs animate-popin">Expert mode unlocked! 🔓</p>
         ) : (
           <div className="w-full">
             <PaymentForm
               initialPlan="games_plus_monthly"
-              submitLabel={def.cta.toUpperCase()}
+              submitLabel={def.cta}
               onSuccess={(plan) => {
                 setSuccess(plan)
                 setTimeout(() => onConvert(plan), 500)
@@ -36,7 +36,7 @@ export function Window2Prompt({
           </div>
         )}
 
-        <button type="button" onClick={onDismiss} className="text-white/30 text-[11px] font-display hover:text-white/60">
+        <button type="button" onClick={onDismiss} className="text-nyt-sub text-[11px] font-body hover:text-nyt-ink">
           Not now
         </button>
       </div>

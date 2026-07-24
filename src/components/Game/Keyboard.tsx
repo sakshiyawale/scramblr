@@ -10,7 +10,7 @@ export function Keyboard({
   onEnter: () => void
 }) {
   const keyClass =
-    'font-arcade text-xs sm:text-sm rounded-md bg-arcade-panel border-2 border-arcade-purple text-white/90 hover:bg-arcade-purple hover:shadow-neon transition-colors px-2 py-3 sm:px-3'
+    'font-head text-xs sm:text-sm font-semibold rounded-md bg-nyt-panel border border-nyt-line text-nyt-ink hover:bg-nyt-paper transition-colors px-2 py-3 sm:px-3'
 
   return (
     <div className="flex flex-col items-center gap-2 select-none">
@@ -27,14 +27,14 @@ export function Keyboard({
         <button
           type="button"
           onClick={onBackspace}
-          className={`${keyClass} px-4 border-arcade-orange text-arcade-orange`}
+          className={`${keyClass} px-4 border-nyt-rust text-nyt-rust`}
         >
           DEL
         </button>
         <button
           type="button"
           onClick={onEnter}
-          className={`${keyClass} px-4 border-arcade-lime text-arcade-lime`}
+          className={`${keyClass} px-4 border-nyt-green text-nyt-green`}
         >
           ENTER
         </button>
