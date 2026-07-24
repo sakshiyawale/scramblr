@@ -18,7 +18,7 @@ function AppShell() {
     <div className="min-h-screen flex flex-col text-white">
       <header className="flex items-center justify-between px-4 sm:px-8 py-4 border-b-2 border-white/10">
         <h1 className="font-arcade text-arcade-cyan text-sm sm:text-base drop-shadow-neon">
-          🔤 UNSCRAMBLE <span className="text-arcade-pink">RACE</span>
+          🔤 SCRAM<span className="text-arcade-pink">BLR</span>
         </h1>
         <div className="flex items-center gap-2 sm:gap-3">
           <span className="hidden sm:inline font-arcade text-[9px] text-white/40 border border-white/20 rounded px-2 py-1">
@@ -29,14 +29,14 @@ function AppShell() {
             onClick={() => setShowDashboard(true)}
             className="font-arcade text-[9px] sm:text-[10px] px-3 py-2 rounded-lg border-2 border-arcade-cyan text-arcade-cyan hover:bg-arcade-cyan hover:text-arcade-bg transition-colors"
           >
-            📊 STATS
+            📊 Stats
           </button>
           <button
             type="button"
             onClick={() => setShowUpgrade(true)}
             className="font-arcade text-[9px] sm:text-[10px] px-3 py-2 rounded-lg bg-arcade-pink text-white shadow-neon hover:scale-105 active:scale-95 transition-transform"
           >
-            ⭐ UPGRADE
+            ⭐ Upgrade
           </button>
         </div>
       </header>

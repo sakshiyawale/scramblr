@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DATA_FILE = path.join(__dirname, '..', 'data', 'store.json')
-const KV_KEY = 'unscramble:store'
+const KV_KEY = 'scramblr:store'
 
 // Vercel's Upstash Redis Marketplace integration injects either naming
 // depending on how the store was provisioned/connected.

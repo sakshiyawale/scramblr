@@ -33,7 +33,7 @@ export function GameScreen({ onOpenUpgrade }: { onOpenUpgrade: () => void }) {
     return (
       <div className="flex flex-col items-center gap-6 py-10 animate-popin">
         <h2 className="font-arcade text-arcade-pink text-2xl sm:text-3xl text-center drop-shadow-neon">
-          UNSCRAMBLE RACE
+          SCRAMBLR
         </h2>
         <p className="font-display text-white/70 text-center max-w-sm">
           Unscramble the word before the clock runs out. Get harder words the better you play.

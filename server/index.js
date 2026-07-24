@@ -131,7 +131,7 @@ app.post('/api/reset', async (_req, res) => {
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 4000
   app.listen(PORT, () => {
-    console.log(`Unscramble Race API listening on http://localhost:${PORT}`)
+    console.log(`Scramblr API listening on http://localhost:${PORT}`)
   })
 }
 
