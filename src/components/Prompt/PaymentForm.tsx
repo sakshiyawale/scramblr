@@ -60,18 +60,18 @@ export function PaymentForm({
             type="button"
             onClick={() => setPlan(p)}
             className={`flex-1 rounded-lg border-2 px-2 py-2 text-left transition-colors ${
-              plan === p ? 'border-nyt-gold bg-nyt-gold/10' : 'border-nyt-line hover:border-nyt-sub'
+              plan === p ? 'border-arcade-yellow bg-arcade-yellow/10' : 'border-white/15 hover:border-white/30'
             }`}
           >
-            <div className="font-head text-[10px] font-semibold text-nyt-ink">{PLANS[p].label}</div>
-            <div className="font-body font-bold text-nyt-gold text-sm">
-              {PLANS[p].price} <span className="text-[10px] text-nyt-sub">{PLANS[p].billingNote}</span>
+            <div className="font-arcade text-[9px] text-white/80">{PLANS[p].label}</div>
+            <div className="font-display font-bold text-arcade-yellow text-sm">
+              {PLANS[p].price} <span className="text-[10px] text-white/50">{PLANS[p].billingNote}</span>
             </div>
           </button>
         ))}
       </div>
 
-      <ul className="text-[11px] font-body text-nyt-sub list-disc list-inside">
+      <ul className="text-[11px] font-display text-white/60 list-disc list-inside">
         {details.perks.map((perk) => (
           <li key={perk}>{perk}</li>
         ))}
@@ -83,7 +83,7 @@ export function PaymentForm({
         placeholder="Card number"
         inputMode="numeric"
         maxLength={19}
-        className="font-body px-3 py-2 rounded-lg bg-white border-2 border-nyt-line text-nyt-ink placeholder-nyt-sub focus:outline-none focus:border-nyt-blue"
+        className="font-display px-3 py-2 rounded-lg bg-black/40 border-2 border-arcade-cyan text-white placeholder-white/30 focus:outline-none focus:shadow-neon"
       />
       <div className="flex gap-2">
         <input
@@ -91,7 +91,7 @@ export function PaymentForm({
           onChange={(e) => setExpiry(e.target.value)}
           placeholder="MM/YY"
           maxLength={5}
-          className="font-body flex-1 px-3 py-2 rounded-lg bg-white border-2 border-nyt-line text-nyt-ink placeholder-nyt-sub focus:outline-none focus:border-nyt-blue"
+          className="font-display flex-1 px-3 py-2 rounded-lg bg-black/40 border-2 border-arcade-cyan text-white placeholder-white/30 focus:outline-none focus:shadow-neon"
         />
         <input
           value={cvc}
@@ -99,20 +99,20 @@ export function PaymentForm({
           placeholder="CVC"
           inputMode="numeric"
           maxLength={4}
-          className="font-body flex-1 px-3 py-2 rounded-lg bg-white border-2 border-nyt-line text-nyt-ink placeholder-nyt-sub focus:outline-none focus:border-nyt-blue"
+          className="font-display flex-1 px-3 py-2 rounded-lg bg-black/40 border-2 border-arcade-cyan text-white placeholder-white/30 focus:outline-none focus:shadow-neon"
         />
       </div>
 
-      {error && <p className="text-nyt-red text-xs font-body">{error}</p>}
+      {error && <p className="text-arcade-pink text-xs font-display">{error}</p>}
 
       <button
         type="submit"
         disabled={submitting}
-        className="font-head font-bold text-xs px-4 py-3 rounded-xl bg-nyt-green text-white shadow-raised hover:opacity-90 transition-opacity disabled:opacity-50"
+        className="font-arcade text-xs px-4 py-3 rounded-xl bg-arcade-lime text-arcade-bg shadow-neon-lg hover:scale-105 active:scale-95 transition-transform disabled:opacity-50"
       >
-        {submitting ? 'Processing…' : submitLabel ?? `Pay ${details.price} ${details.billingNote}`}
+        {submitting ? 'PROCESSING…' : submitLabel ?? `PAY ${details.price} ${details.billingNote.toUpperCase()}`}
       </button>
-      <p className="text-[10px] text-nyt-sub font-body text-center">
+      <p className="text-[10px] text-white/30 font-display text-center">
         Demo checkout -- no real payment is processed.
       </p>
     </form>

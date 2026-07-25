@@ -7,16 +7,16 @@ export function ScrambledWord({ scrambled, hintedLetters, answer }: { scrambled:
         {scrambled.split('').map((letter, i) => (
           <span
             key={i}
-            className="grid place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-nyt-panel border-2 border-nyt-gold text-nyt-ink font-head font-bold text-xl sm:text-2xl shadow-card"
+            className="grid place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-arcade-panel border-4 border-arcade-yellow text-arcade-yellow font-arcade text-xl sm:text-2xl shadow-neon"
           >
             {letter}
           </span>
         ))}
       </div>
       {hintedLetters > 0 && (
-        <p className="font-body text-nyt-green text-sm tracking-widest">
+        <p className="font-display text-arcade-lime text-sm tracking-widest">
           HINT: {hintPreview}
-          <span className="text-nyt-sub">{'_'.repeat(answer.length - hintedLetters)}</span>
+          <span className="opacity-40">{'_'.repeat(answer.length - hintedLetters)}</span>
         </p>
       )}
     </div>

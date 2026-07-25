@@ -18,10 +18,10 @@ export function UpgradeModal({
 
   if (success) {
     return (
-      <PromptModal onClose={onDismiss} accent="blue">
+      <PromptModal onClose={onDismiss} accent="cyan">
         <div className="flex flex-col items-center gap-3 text-center py-4">
-          <span className="font-head text-nyt-green text-sm animate-popin">You're upgraded! 🎉</span>
-          <p className="font-body text-nyt-sub text-sm">Welcome to {PLANS[success].label}.</p>
+          <span className="font-arcade text-arcade-lime text-sm animate-popin">YOU'RE UPGRADED! 🎉</span>
+          <p className="font-display text-white/60 text-sm">Welcome to {PLANS[success].label}.</p>
         </div>
       </PromptModal>
     )
@@ -29,10 +29,10 @@ export function UpgradeModal({
 
   if (checkoutPlan) {
     return (
-      <PromptModal onClose={onDismiss} accent="blue">
+      <PromptModal onClose={onDismiss} accent="cyan">
         <div className="flex flex-col items-center gap-4 text-center">
-          <span className="font-head text-[11px] font-bold text-nyt-blue">CHECKOUT</span>
-          <h3 className="font-head font-extrabold text-xl text-nyt-ink">Upgrade to {PLANS[checkoutPlan].label}</h3>
+          <span className="font-arcade text-[10px] text-arcade-cyan">CHECKOUT</span>
+          <h3 className="font-display font-extrabold text-xl text-white">Upgrade to {PLANS[checkoutPlan].label}</h3>
           <div className="w-full">
             <PaymentForm
               initialPlan={checkoutPlan}
@@ -48,10 +48,10 @@ export function UpgradeModal({
   }
 
   return (
-    <PromptModal onClose={onDismiss} accent="blue">
+    <PromptModal onClose={onDismiss} accent="cyan">
       <div className="flex flex-col items-center gap-4 text-center">
-        <span className="font-head text-[11px] font-bold text-nyt-blue">CHOOSE YOUR PLAN</span>
-        <h3 className="font-head font-extrabold text-xl text-nyt-ink">Level up your game</h3>
+        <span className="font-arcade text-[10px] text-arcade-cyan">CHOOSE YOUR PLAN</span>
+        <h3 className="font-display font-extrabold text-xl text-white">Level up your game</h3>
 
         <div className="flex flex-col gap-3 w-full">
           {(Object.values(PLANS) as (typeof PLANS)[Plan][]).map((p) => {
@@ -60,29 +60,29 @@ export function UpgradeModal({
               <div
                 key={p.id}
                 className={`rounded-xl border-2 p-3 text-left ${
-                  isCurrent ? 'border-nyt-green bg-nyt-green/10' : 'border-nyt-line'
+                  isCurrent ? 'border-arcade-lime bg-arcade-lime/10' : 'border-white/15'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-head text-[12px] font-bold text-nyt-ink">{p.label}</span>
-                  <span className="font-body font-bold text-nyt-gold">
-                    {p.price} <span className="text-[10px] text-nyt-sub">{p.billingNote}</span>
+                  <span className="font-arcade text-[11px] text-white">{p.label}</span>
+                  <span className="font-display font-bold text-arcade-yellow">
+                    {p.price} <span className="text-[10px] text-white/50">{p.billingNote}</span>
                   </span>
                 </div>
-                <ul className="mt-1 text-[11px] font-body text-nyt-sub list-disc list-inside">
+                <ul className="mt-1 text-[11px] font-display text-white/50 list-disc list-inside">
                   {p.perks.map((perk) => (
                     <li key={perk}>{perk}</li>
                   ))}
                 </ul>
                 {isCurrent ? (
-                  <p className="mt-2 font-head text-[10px] font-bold text-nyt-green">CURRENT PLAN</p>
+                  <p className="mt-2 font-arcade text-[9px] text-arcade-lime">CURRENT PLAN</p>
                 ) : (
                   <button
                     type="button"
                     onClick={() => (p.id === 'free' ? onUpgrade('free') : setCheckoutPlan(p.id))}
-                    className="mt-2 w-full font-head text-[11px] font-bold px-3 py-2 rounded-lg bg-nyt-red text-white shadow-card hover:opacity-90 transition-opacity"
+                    className="mt-2 w-full font-arcade text-[10px] px-3 py-2 rounded-lg bg-arcade-pink text-white shadow-neon hover:scale-105 active:scale-95 transition-transform"
                   >
-                    {p.id === 'free' ? 'Downgrade' : 'Upgrade'}
+                    {p.id === 'free' ? 'DOWNGRADE' : 'UPGRADE'}
                   </button>
                 )}
               </div>

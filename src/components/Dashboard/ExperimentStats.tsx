@@ -34,23 +34,23 @@ export function ExperimentStats({ onClose }: { onClose: () => void }) {
   const totalConversions = results ? Object.values(results.destinationBreakdown).reduce((a, b) => a + b, 0) : 0
 
   return (
-    <div className="fixed inset-0 z-40 bg-nyt-paper overflow-y-auto p-4 sm:p-8">
+    <div className="fixed inset-0 z-40 bg-arcade-bg/98 overflow-y-auto p-4 sm:p-8">
       <div className="max-w-3xl mx-auto flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h2 className="font-head font-extrabold text-nyt-ink text-lg sm:text-xl">📊 Analytics dashboard</h2>
-          <button type="button" onClick={onClose} className="font-head text-xs font-semibold text-nyt-sub hover:text-nyt-ink">
-            ✕ Close
+          <h2 className="font-arcade text-arcade-yellow text-lg sm:text-xl drop-shadow-neon">📊 ANALYTICS DASHBOARD</h2>
+          <button type="button" onClick={onClose} className="font-arcade text-xs text-white/60 hover:text-white">
+            ✕ CLOSE
           </button>
         </div>
 
         {loading || !results ? (
-          <p className="font-body text-nyt-sub text-center py-10">Loading…</p>
+          <p className="font-display text-white/50 text-center py-10">Loading…</p>
         ) : (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <StatCard label="Players" value={results.totalPlayers} color="text-nyt-blue" />
-              <StatCard label="Events" value={results.totalEvents} color="text-nyt-green" />
-              <StatCard label="Conversions" value={totalConversions} color="text-nyt-red" />
+              <StatCard label="Players" value={results.totalPlayers} color="text-arcade-cyan" />
+              <StatCard label="Events" value={results.totalEvents} color="text-arcade-lime" />
+              <StatCard label="Conversions" value={totalConversions} color="text-arcade-pink" />
               <StatCard
                 label="Window 3 App %"
                 value={
@@ -58,46 +58,46 @@ export function ExperimentStats({ onClose }: { onClose: () => void }) {
                     ? `${(((results.destinationBreakdown.app_download ?? 0) / totalConversions) * 100).toFixed(0)}%`
                     : '—'
                 }
-                color="text-nyt-plum"
+                color="text-arcade-purple"
               />
             </div>
 
-            <section className="rounded-xl border border-nyt-line bg-nyt-panel p-4">
-              <h3 className="font-head text-nyt-blue text-xs font-bold mb-3">VP DISTRIBUTION</h3>
+            <section className="rounded-xl border-2 border-arcade-cyan/40 p-4">
+              <h3 className="font-arcade text-arcade-cyan text-xs mb-3">VP DISTRIBUTION</h3>
               <VPHistogram distribution={results.vpDistribution} />
             </section>
 
-            <section className="rounded-xl border border-nyt-line bg-nyt-panel p-4">
-              <h3 className="font-head text-nyt-red text-xs font-bold mb-3">CONVERSION RATE PER WINDOW</h3>
+            <section className="rounded-xl border-2 border-arcade-pink/40 p-4">
+              <h3 className="font-arcade text-arcade-pink text-xs mb-3">CONVERSION RATE PER WINDOW</h3>
               <WindowConversion windowStats={results.windowStats} />
             </section>
 
             <div className="grid sm:grid-cols-2 gap-4">
-              <section className="rounded-xl border border-nyt-line bg-nyt-panel p-4">
-                <h3 className="font-head text-nyt-green text-xs font-bold mb-3">DESTINATION BREAKDOWN</h3>
+              <section className="rounded-xl border-2 border-arcade-lime/40 p-4">
+                <h3 className="font-arcade text-arcade-lime text-xs mb-3">DESTINATION BREAKDOWN</h3>
                 <ul className="flex flex-col gap-2">
                   {Object.entries(results.destinationBreakdown).map(([dest, count]) => (
-                    <li key={dest} className="flex justify-between font-body text-sm text-nyt-sub">
+                    <li key={dest} className="flex justify-between font-display text-sm text-white/70">
                       <span>{DEST_LABEL[dest] ?? dest}</span>
-                      <span className="text-nyt-green font-bold">{count}</span>
+                      <span className="text-arcade-lime font-bold">{count}</span>
                     </li>
                   ))}
                   {Object.keys(results.destinationBreakdown).length === 0 && (
-                    <li className="font-body text-nyt-sub text-sm">No conversions yet.</li>
+                    <li className="font-display text-white/30 text-sm">No conversions yet.</li>
                   )}
                 </ul>
               </section>
 
-              <section className="rounded-xl border border-nyt-line bg-nyt-panel p-4">
-                <h3 className="font-head text-nyt-rust text-xs font-bold mb-3">PLATFORM BREAKDOWN</h3>
+              <section className="rounded-xl border-2 border-arcade-orange/40 p-4">
+                <h3 className="font-arcade text-arcade-orange text-xs mb-3">PLATFORM BREAKDOWN</h3>
                 <ul className="flex flex-col gap-2">
-                  <li className="flex justify-between font-body text-sm text-nyt-sub">
+                  <li className="flex justify-between font-display text-sm text-white/70">
                     <span>Desktop</span>
-                    <span className="text-nyt-rust font-bold">{results.platformBreakdown.desktop}</span>
+                    <span className="text-arcade-orange font-bold">{results.platformBreakdown.desktop}</span>
                   </li>
-                  <li className="flex justify-between font-body text-sm text-nyt-sub">
+                  <li className="flex justify-between font-display text-sm text-white/70">
                     <span>Mobile</span>
-                    <span className="text-nyt-rust font-bold">{results.platformBreakdown.mobile}</span>
+                    <span className="text-arcade-orange font-bold">{results.platformBreakdown.mobile}</span>
                   </li>
                 </ul>
               </section>
@@ -106,9 +106,9 @@ export function ExperimentStats({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={handleReset}
-              className="self-center font-head text-[11px] font-semibold px-5 py-3 rounded-xl bg-nyt-red/10 border border-nyt-red text-nyt-red hover:bg-nyt-red hover:text-white transition-colors"
+              className="self-center font-arcade text-[10px] px-5 py-3 rounded-xl bg-arcade-pink/20 border-2 border-arcade-pink text-arcade-pink hover:bg-arcade-pink hover:text-white transition-colors"
             >
-              ↺ Reset demo data
+              ↺ RESET DEMO DATA
             </button>
           </>
         )}
@@ -119,9 +119,9 @@ export function ExperimentStats({ onClose }: { onClose: () => void }) {
 
 function StatCard({ label, value, color }: { label: string; value: string | number; color: string }) {
   return (
-    <div className="rounded-lg bg-nyt-panel border border-nyt-line p-3 text-center">
-      <div className="font-head text-[10px] font-semibold text-nyt-sub">{label}</div>
-      <div className={`font-head text-lg font-bold ${color}`}>{value}</div>
+    <div className="rounded-lg bg-arcade-panel border-2 border-white/10 p-3 text-center">
+      <div className="font-arcade text-[9px] text-white/40">{label}</div>
+      <div className={`font-arcade text-lg ${color}`}>{value}</div>
     </div>
   )
 }

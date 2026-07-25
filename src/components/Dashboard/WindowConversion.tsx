@@ -8,9 +8,9 @@ const TARGETS: Record<'window1' | 'window2' | 'window3', number> = {
 }
 
 const COLORS: Record<'window1' | 'window2' | 'window3', string> = {
-  window1: 'bg-nyt-blue text-nyt-blue',
-  window2: 'bg-nyt-red text-nyt-red',
-  window3: 'bg-nyt-plum text-nyt-plum',
+  window1: 'bg-arcade-cyan text-arcade-cyan',
+  window2: 'bg-arcade-pink text-arcade-pink',
+  window3: 'bg-arcade-purple text-arcade-purple',
 }
 
 export function WindowConversion({ windowStats }: { windowStats: Record<'window1' | 'window2' | 'window3', WindowStat> }) {
@@ -24,24 +24,24 @@ export function WindowConversion({ windowStats }: { windowStats: Record<'window1
         const [barColor, textColor] = COLORS[id].split(' ')
 
         return (
-          <div key={id} className="rounded-lg bg-nyt-paper border border-nyt-line p-3">
+          <div key={id} className="rounded-lg bg-black/30 border-2 border-white/10 p-3">
             <div className="flex justify-between items-center mb-1">
-              <span className={`font-head text-[11px] font-semibold ${textColor}`}>{WINDOWS[id].cta}</span>
-              <span className="font-body text-xs text-nyt-sub">
+              <span className={`font-arcade text-[10px] ${textColor}`}>{WINDOWS[id].cta}</span>
+              <span className="font-display text-xs text-white/50">
                 {stat?.converted ?? 0} / {stat?.shown ?? 0} shown
               </span>
             </div>
-            <div className="h-3 w-full rounded-full bg-nyt-line/40 overflow-hidden">
-              <div className={`h-full ${barColor}`} style={{ width: `${Math.min(100, rate * 100)}%` }} />
+            <div className="h-3 w-full rounded-full bg-black/40 overflow-hidden">
+              <div className={`h-full ${barColor} shadow-neon`} style={{ width: `${Math.min(100, rate * 100)}%` }} />
             </div>
             <div className="flex justify-between mt-1">
-              <span className="font-head text-[10px] font-semibold text-nyt-ink">{(rate * 100).toFixed(1)}%</span>
-              <span className={`font-body text-[10px] ${hitTarget ? 'text-nyt-green' : 'text-nyt-sub'}`}>
+              <span className="font-arcade text-[9px] text-white">{(rate * 100).toFixed(1)}%</span>
+              <span className={`font-display text-[10px] ${hitTarget ? 'text-arcade-lime' : 'text-white/40'}`}>
                 target {(target * 100).toFixed(0)}% {hitTarget ? '✓' : ''}
               </span>
             </div>
             {stat?.avgVpAtConversion ? (
-              <p className="font-body text-[10px] text-nyt-sub mt-1">Avg VP at conversion: {stat.avgVpAtConversion}</p>
+              <p className="font-display text-[10px] text-white/40 mt-1">Avg VP at conversion: {stat.avgVpAtConversion}</p>
             ) : null}
           </div>
         )

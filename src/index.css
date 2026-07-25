@@ -9,9 +9,19 @@ body,
 }
 
 body {
-  background-color: #f6f6f0;
+  background-color: #160726;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(139, 47, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(0, 240, 255, 0.15), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(255, 47, 177, 0.2), transparent 45%),
+    linear-gradient(#160726, #160726);
+  background-attachment: fixed;
+}
+
+.drop-shadow-neon {
+  filter: drop-shadow(0 0 6px currentColor);
 }
 
 * {
-  scrollbar-color: #a8353d #f6f6f0;
+  scrollbar-color: #8b2fff #160726;
 }
