@@ -7,12 +7,54 @@ import { Window2Prompt } from './components/Prompt/Window2Prompt'
 import { Window3Prompt } from './components/Prompt/Window3Prompt'
 import { UpgradeModal } from './components/Prompt/UpgradeModal'
 import { ExperimentStats } from './components/Dashboard/ExperimentStats'
+import { ProfileSetup } from './components/Profile/ProfileSetup'
 import { PLANS } from './lib/value-engine'
+import { createProfile, getStoredProfile, initialsFor, type Profile } from './lib/profile'
 
-function AppShell() {
-  const { value, activeWindow, dismissActiveWindow, onGameEnd, onHintUsed, convert, upgradePlan } = useValue()
+function ProfileBadge({ name, onReset }: { name: string; onReset: () => void }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex items-center gap-2"
+        title={name}
+      >
+        <span className="grid place-items-center w-7 h-7 rounded-full bg-arcade-cyan text-arcade-bg text-[11px] font-arcade">
+          {initialsFor(name)}
+        </span>
+        <span className="hidden md:inline font-display text-sm text-white/80">{name}</span>
+      </button>
+      {open && (
+        <div className="absolute right-0 top-10 z-30 w-44 rounded-lg bg-arcade-panel border-2 border-arcade-cyan shadow-neon p-2 flex flex-col gap-1">
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
+              onReset()
+            }}
+            className="font-display text-left text-xs text-white/80 hover:text-arcade-pink px-2 py-2 rounded"
+          >
+            ↺ Reset my score
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function AppShell({ profile }: { profile: Profile }) {
+  const { value, activeWindow, dismissActiveWindow, onGameEnd, onHintUsed, convert, upgradePlan, resetAll } = useValue()
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
+
+  function handleResetMyScore() {
+    if (window.confirm('Reset your score, VP, and history? This cannot be undone.')) {
+      resetAll()
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col text-white">
@@ -21,6 +63,7 @@ function AppShell() {
           🔤 SCRAM<span className="text-arcade-pink">BLR</span>
         </h1>
         <div className="flex items-center gap-2 sm:gap-3">
+          <ProfileBadge name={profile.name} onReset={handleResetMyScore} />
           <span className="hidden sm:inline font-arcade text-[9px] text-white/40 border border-white/20 rounded px-2 py-1">
             {PLANS[value.plan].label}
           </span>
@@ -43,13 +86,9 @@ function AppShell() {
 
       <main className="flex-1 flex items-center justify-center px-4 py-6">
         <GameProvider onGameEnd={onGameEnd} onHintUsed={onHintUsed}>
-          <GameScreen onOpenUpgrade={() => setShowUpgrade(true)} />
+          <GameScreen onOpenUpgrade={() => setShowUpgrade(true)} playerName={profile.name} />
         </GameProvider>
       </main>
-
-      <footer className="text-center py-3 font-display text-[11px] text-white/25">
-        Portfolio project inspired by NYT Games CASH Squad -- demo checkout, no real payments processed.
-      </footer>
 
       {activeWindow === 'window1' && (
         <Window1Prompt onConvert={() => convert('window1')} onDismiss={dismissActiveWindow} />
@@ -78,9 +117,15 @@ function AppShell() {
 }
 
 export default function App() {
+  const [profile, setProfile] = useState<Profile | null>(() => getStoredProfile())
+
+  if (!profile) {
+    return <ProfileSetup onCreate={(name) => setProfile(createProfile(name))} />
+  }
+
   return (
-    <ValueProvider>
-      <AppShell />
+    <ValueProvider key={profile.id} userId={profile.id}>
+      <AppShell profile={profile} />
     </ValueProvider>
   )
 }

@@ -11,38 +11,42 @@ import {
   markWindowSeen,
   WINDOW_OPEN_MS,
   VP_RULES,
+  WINDOWS,
 } from '../src/lib/value-engine'
 
 describe('getConversionWindow', () => {
   const unseen = { window1: false, window2: false, window3: false }
+  const { threshold: T1 } = WINDOWS.window1
+  const { threshold: T2 } = WINDOWS.window2
+  const { threshold: T3 } = WINDOWS.window3
 
   it('returns null below all thresholds', () => {
     expect(getConversionWindow(0, unseen)).toBeNull()
-    expect(getConversionWindow(19, unseen)).toBeNull()
+    expect(getConversionWindow(T1 - 1, unseen)).toBeNull()
   })
 
-  it('returns window1 at 20 VP', () => {
-    expect(getConversionWindow(20, unseen)).toBe('window1')
+  it('returns window1 at its threshold', () => {
+    expect(getConversionWindow(T1, unseen)).toBe('window1')
   })
 
-  it('returns window2 at 50 VP', () => {
-    expect(getConversionWindow(50, unseen)).toBe('window2')
+  it('returns window2 at its threshold', () => {
+    expect(getConversionWindow(T2, unseen)).toBe('window2')
   })
 
-  it('returns window3 at 100 VP', () => {
-    expect(getConversionWindow(100, unseen)).toBe('window3')
+  it('returns window3 at its threshold', () => {
+    expect(getConversionWindow(T3, unseen)).toBe('window3')
   })
 
   it('prioritizes higher windows when multiple thresholds are crossed at once', () => {
-    // PRD 3.3: a player who jumps from 15 to 55 VP skips window1 straight to window2.
-    expect(getConversionWindow(55, unseen)).toBe('window2')
-    expect(getConversionWindow(120, unseen)).toBe('window3')
+    // PRD 3.3: a player who jumps straight past window1's threshold skips it for window2.
+    expect(getConversionWindow(T2 + 5, unseen)).toBe('window2')
+    expect(getConversionWindow(T3 + 20, unseen)).toBe('window3')
   })
 
   it('skips windows already marked as seen', () => {
-    expect(getConversionWindow(20, { window1: true, window2: false, window3: false })).toBeNull()
-    expect(getConversionWindow(120, { window1: true, window2: true, window3: false })).toBe('window3')
-    expect(getConversionWindow(120, { window1: true, window2: true, window3: true })).toBeNull()
+    expect(getConversionWindow(T1, { window1: true, window2: false, window3: false })).toBeNull()
+    expect(getConversionWindow(T3 + 20, { window1: true, window2: true, window3: false })).toBe('window3')
+    expect(getConversionWindow(T3 + 20, { window1: true, window2: true, window3: true })).toBeNull()
   })
 })
 

@@ -34,7 +34,7 @@ export function ExperimentStats({ onClose }: { onClose: () => void }) {
   const totalConversions = results ? Object.values(results.destinationBreakdown).reduce((a, b) => a + b, 0) : 0
 
   return (
-    <div className="fixed inset-0 z-40 bg-arcade-bg/98 overflow-y-auto p-4 sm:p-8">
+    <div className="fixed inset-0 z-40 bg-arcade-bg overflow-y-auto p-4 sm:p-8">
       <div className="max-w-3xl mx-auto flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <h2 className="font-arcade text-arcade-yellow text-lg sm:text-xl drop-shadow-neon">📊 ANALYTICS DASHBOARD</h2>

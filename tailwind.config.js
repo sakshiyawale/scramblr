@@ -5,14 +5,14 @@ export default {
     extend: {
       colors: {
         arcade: {
-          bg: '#160726',
-          panel: '#210b3a',
-          pink: '#ff2fb1',
-          cyan: '#00f0ff',
-          yellow: '#ffe600',
-          lime: '#7dff3f',
-          purple: '#8b2fff',
-          orange: '#ff7a1a',
+          bg: '#1c1230',
+          panel: '#2a1f47',
+          pink: '#f472b6',
+          cyan: '#67e8f9',
+          yellow: '#fde047',
+          lime: '#a3e635',
+          purple: '#c084fc',
+          orange: '#fb923c',
         },
       },
       fontFamily: {
@@ -20,8 +20,8 @@ export default {
         display: ['"Baloo 2"', 'ui-sans-serif', 'system-ui'],
       },
       boxShadow: {
-        neon: '0 0 8px currentColor, 0 0 24px currentColor',
-        'neon-lg': '0 0 12px currentColor, 0 0 40px currentColor',
+        neon: '0 0 4px currentColor, 0 0 10px currentColor',
+        'neon-lg': '0 0 6px currentColor, 0 0 16px currentColor',
       },
       animation: {
         flicker: 'flicker 2.5s infinite',

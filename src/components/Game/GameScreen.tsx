@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGame, timerSecondsFor, DIFFICULTY_TIERS } from '../../context/GameContext'
 import { useValue } from '../../context/ValueContext'
 import { Timer } from './Timer'
 import { ScrambledWord } from './ScrambledWord'
 import { ScoreBoard } from './ScoreBoard'
 import { Keyboard } from './Keyboard'
+import { ShareModal } from '../Share/ShareModal'
 
 const TIER_LABEL: Record<string, string> = {
   easy: 'EASY',
@@ -20,10 +21,11 @@ const TIER_COLOR: Record<string, string> = {
   expert: 'text-arcade-pink border-arcade-pink',
 }
 
-export function GameScreen({ onOpenUpgrade }: { onOpenUpgrade: () => void }) {
+export function GameScreen({ onOpenUpgrade, playerName }: { onOpenUpgrade: () => void; playerName: string }) {
   const game = useGame()
-  const { value, onExpertAttempted } = useValue()
+  const { value, onExpertAttempted, onScoreShared } = useValue()
   const inputRef = useRef<HTMLInputElement>(null)
+  const [showShare, setShowShare] = useState(false)
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -54,7 +56,7 @@ export function GameScreen({ onOpenUpgrade }: { onOpenUpgrade: () => void }) {
       <div className="flex flex-col items-center gap-6 py-10 animate-popin">
         <h2 className="font-arcade text-arcade-orange text-xl sm:text-2xl">GAME OVER</h2>
         <ScoreBoard score={game.score} value={value} />
-        <div className="flex gap-3">
+        <div className="flex flex-wrap justify-center gap-3">
           <button
             type="button"
             onClick={game.startGame}
@@ -64,12 +66,31 @@ export function GameScreen({ onOpenUpgrade }: { onOpenUpgrade: () => void }) {
           </button>
           <button
             type="button"
+            onClick={() => setShowShare(true)}
+            className="font-arcade text-xs sm:text-sm px-6 py-3 rounded-xl bg-arcade-lime text-arcade-bg shadow-neon-lg hover:scale-105 active:scale-95 transition-transform"
+          >
+            📤 SHARE
+          </button>
+          <button
+            type="button"
             onClick={onOpenUpgrade}
             className="font-arcade text-xs sm:text-sm px-6 py-3 rounded-xl bg-arcade-pink text-white shadow-neon-lg hover:scale-105 active:scale-95 transition-transform"
           >
             ⭐ UPGRADE
           </button>
         </div>
+
+        {showShare && (
+          <ShareModal
+            score={game.score}
+            personalBest={value.personalBest}
+            vp={value.vp}
+            difficulty={game.difficulty}
+            playerName={playerName}
+            onClose={() => setShowShare(false)}
+            onShared={onScoreShared}
+          />
+        )}
       </div>
     )
   }

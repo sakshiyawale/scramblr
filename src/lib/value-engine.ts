@@ -12,7 +12,7 @@ export const VP_RULES = {
 export const WINDOWS: Record<WindowId, WindowDefinition> = {
   window1: {
     id: 'window1',
-    threshold: 20,
+    threshold: 10,
     headline: "You've played a few games free. Want unlimited?",
     cta: 'Try Games+ Free',
     destination: 'web_trial',
@@ -20,7 +20,7 @@ export const WINDOWS: Record<WindowId, WindowDefinition> = {
   },
   window2: {
     id: 'window2',
-    threshold: 50,
+    threshold: 25,
     headline: "You're clearly a word person. Games+ was made for you.",
     cta: 'Unlock Expert Mode',
     destination: 'web_subscription',
@@ -28,7 +28,7 @@ export const WINDOWS: Record<WindowId, WindowDefinition> = {
   },
   window3: {
     id: 'window3',
-    threshold: 100,
+    threshold: 50,
     headline: "You've beaten your personal best multiple times. You're leaving Expert mode on the table.",
     cta: 'Get the App',
     destination: 'app_download',
