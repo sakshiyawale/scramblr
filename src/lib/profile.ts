@@ -1,30 +1,39 @@
 export interface Profile {
   id: string
   name: string
+  /** 4-digit PIN stored locally as a lightweight gate for a shared device -- not real auth/security. */
+  pin: string
 }
 
-const STORAGE_KEY = 'scramblr:profile'
+const STORAGE_KEY = 'scramblr:profiles'
 
-export function getStoredProfile(): Profile | null {
+export function getProfiles(): Profile[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return null
+    if (!raw) return []
     const parsed = JSON.parse(raw)
-    if (typeof parsed?.id === 'string' && typeof parsed?.name === 'string') return parsed
-    return null
+    return Array.isArray(parsed) ? parsed : []
   } catch {
-    return null
+    return []
   }
 }
 
-export function createProfile(name: string): Profile {
-  const profile: Profile = { id: crypto.randomUUID(), name: name.trim() }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile))
+function saveProfiles(profiles: Profile[]): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles))
+}
+
+export function createProfile(name: string, pin: string): Profile {
+  const profile: Profile = { id: crypto.randomUUID(), name: name.trim(), pin }
+  saveProfiles([...getProfiles(), profile])
   return profile
 }
 
-export function clearProfile(): void {
-  localStorage.removeItem(STORAGE_KEY)
+export function deleteProfile(id: string): void {
+  saveProfiles(getProfiles().filter((p) => p.id !== id))
+}
+
+export function verifyPin(profile: Profile, pin: string): boolean {
+  return profile.pin === pin
 }
 
 export function initialsFor(name: string): string {

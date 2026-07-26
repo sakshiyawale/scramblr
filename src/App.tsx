@@ -7,11 +7,11 @@ import { Window2Prompt } from './components/Prompt/Window2Prompt'
 import { Window3Prompt } from './components/Prompt/Window3Prompt'
 import { UpgradeModal } from './components/Prompt/UpgradeModal'
 import { ExperimentStats } from './components/Dashboard/ExperimentStats'
-import { ProfileSetup } from './components/Profile/ProfileSetup'
+import { ProfilePicker } from './components/Profile/ProfilePicker'
 import { PLANS } from './lib/value-engine'
-import { createProfile, getStoredProfile, initialsFor, type Profile } from './lib/profile'
+import { createProfile, deleteProfile, getProfiles, initialsFor, type Profile } from './lib/profile'
 
-function ProfileBadge({ name, onReset }: { name: string; onReset: () => void }) {
+function ProfileBadge({ name, onReset, onSwitch }: { name: string; onReset: () => void; onSwitch: () => void }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -33,6 +33,16 @@ function ProfileBadge({ name, onReset }: { name: string; onReset: () => void }) 
             type="button"
             onClick={() => {
               setOpen(false)
+              onSwitch()
+            }}
+            className="font-display text-left text-xs text-white/80 hover:text-arcade-cyan px-2 py-2 rounded"
+          >
+            👤 Switch profile
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false)
               onReset()
             }}
             className="font-display text-left text-xs text-white/80 hover:text-arcade-pink px-2 py-2 rounded"
@@ -45,7 +55,7 @@ function ProfileBadge({ name, onReset }: { name: string; onReset: () => void }) 
   )
 }
 
-function AppShell({ profile }: { profile: Profile }) {
+function AppShell({ profile, onSwitchProfile }: { profile: Profile; onSwitchProfile: () => void }) {
   const { value, activeWindow, dismissActiveWindow, onGameEnd, onHintUsed, convert, upgradePlan, resetAll } = useValue()
   const [showUpgrade, setShowUpgrade] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
@@ -63,7 +73,7 @@ function AppShell({ profile }: { profile: Profile }) {
           🔤 SCRAM<span className="text-arcade-pink">BLR</span>
         </h1>
         <div className="flex items-center gap-2 sm:gap-3">
-          <ProfileBadge name={profile.name} onReset={handleResetMyScore} />
+          <ProfileBadge name={profile.name} onReset={handleResetMyScore} onSwitch={onSwitchProfile} />
           <span className="hidden sm:inline font-arcade text-[9px] text-white/40 border border-white/20 rounded px-2 py-1">
             {PLANS[value.plan].label}
           </span>
@@ -117,15 +127,30 @@ function AppShell({ profile }: { profile: Profile }) {
 }
 
 export default function App() {
-  const [profile, setProfile] = useState<Profile | null>(() => getStoredProfile())
+  const [profiles, setProfiles] = useState<Profile[]>(() => getProfiles())
+  const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
 
-  if (!profile) {
-    return <ProfileSetup onCreate={(name) => setProfile(createProfile(name))} />
+  if (!activeProfile) {
+    return (
+      <ProfilePicker
+        profiles={profiles}
+        onUnlock={setActiveProfile}
+        onCreate={(name, pin) => {
+          const profile = createProfile(name, pin)
+          setProfiles(getProfiles())
+          setActiveProfile(profile)
+        }}
+        onDelete={(id) => {
+          deleteProfile(id)
+          setProfiles(getProfiles())
+        }}
+      />
+    )
   }
 
   return (
-    <ValueProvider key={profile.id} userId={profile.id}>
-      <AppShell profile={profile} />
+    <ValueProvider key={activeProfile.id} userId={activeProfile.id}>
+      <AppShell profile={activeProfile} onSwitchProfile={() => setActiveProfile(null)} />
     </ValueProvider>
   )
 }
