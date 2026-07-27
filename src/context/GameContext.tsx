@@ -76,8 +76,10 @@ export function GameProvider({
     setHintsRemaining(3)
     setLastResult(null)
     setPhase('playing')
-    nextWord(0, [])
-  }, [nextWord])
+    // Keep the recent-word history across "Play Again" so a new game doesn't
+    // immediately repeat the words from the one that just ended.
+    nextWord(0, seenWords)
+  }, [nextWord, seenWords])
 
   const endGame = useCallback(() => {
     setPhase('ended')

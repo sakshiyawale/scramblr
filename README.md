@@ -30,8 +30,9 @@ Higher windows take priority — a player who jumps from 5 to 30 VP in one sessi
 ## Features
 
 - **Core game**: 15-second rounds, four difficulty tiers (Easy → Expert), hints, streaks, personal bests.
-- **Simple profiles**: pick a name on first visit (no signup, no password) — your history persists locally and on the server under that profile, and you can reset it any time from the profile menu.
+- **PIN-protected profiles**: multiple players can share one device. Each profile is a name + a 4-digit PIN (no signup, no password) — history persists per profile, profiles can be switched or deleted (PIN required to delete), and any profile's score/VP/history can be reset independently.
 - **Simulated checkout**: picking a paid plan walks through a mock card-entry flow (Window 2 prompt or the manual Upgrade button) — no real payment is processed.
+- **Share score card**: end-of-game screen generates a canvas-rendered score card (score, best, VP, difficulty) that can be downloaded as a PNG or shared via the native share sheet / X / Facebook / WhatsApp; sharing awards the "score shared" VP once per game.
 - **Analytics dashboard**: VP distribution, conversion rate per window vs. target, destination/platform breakdown, with a demo-wide reset.
 
 ## Tech stack
@@ -75,11 +76,13 @@ src/
   components/Game/       ScrambledWord, Timer, ScoreBoard, Keyboard, GameScreen
   components/Prompt/     PromptModal, Window1/2/3Prompt, UpgradeModal, PaymentForm
   components/Dashboard/  ExperimentStats, VPHistogram, WindowConversion
-  components/Profile/    ProfileSetup
+  components/Profile/    ProfilePicker, ProfileSetup
+  components/Share/      ShareModal
   context/GameContext    game state, score, streak, difficulty
   context/ValueContext   VP accumulation, window eligibility, per-profile persistence
   lib/value-engine.ts    VP scoring, window thresholds and priority logic
-  lib/profile.ts         local-storage-backed simple profile (name only, no auth)
+  lib/profile.ts         local-storage-backed multi-profile store (name + 4-digit PIN, no real auth)
+  lib/shareCard.ts       canvas-rendered shareable score card
   lib/signals.ts         behavioral event tracking
   lib/words.ts           word list by difficulty tier
   lib/scramble.ts        word shuffling
